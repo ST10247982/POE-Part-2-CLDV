@@ -1,0 +1,60 @@
+﻿@model IEnumerable<POE_part_2.Models.ArtWork>
+
+@{
+    ViewData["Title"] = "My Work Page";
+}
+
+<main>
+    <section>
+        <div class="search-div"><input class="search-bar" type="text" placeholder="search"> <button class="search-button">Search</button> </div>
+    
+
+        <div class="container">
+            <div class="row">
+                @{
+                    int productsPerRow = 3;
+                    int counter = 0;
+                }
+
+                @foreach (var work in Model)
+                {
+                    <div class="col-md" style="padding-bottom: 40px;">
+                        <div class="card">
+                            <div class="card-img-container">
+                                <img src="@Url.Content(Convert.ToBase64String(work.Picture))" class="card-img" alt="...">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title">@work.ProductName</h5>
+                                <p class="card-text">@work.Price</p>
+                            </div>
+                            <div class="card-footer">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <button class="add-to-cart">Add to Cart</button>
+                                    <div class="rating">
+                                        <span class="badge badge-primary">@work.Quantity</span> 
+                                        <i class="fas fa-star"></i> 
+                                    </div>
+                                    <div class="btn-group" role="group" aria-label="Artwork Actions">
+                                        <a href="@Url.Action("Details", "ArtWorks", new { id = work.ArtWorkId })" class="btn btn-info">Details</a>
+                                        <a href="@Url.Action("Edit", "ArtWorks", new { id = work.ArtWorkId })" class="btn btn-warning">Edit</a>
+                                        <a href="@Url.Action("Delete", "ArtWorks", new { id = work.ArtWorkId })" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (++counter % productsPerRow == 0)
+                    {
+                        @:</div> <!-- .row -->
+                        @:<div class="row">
+                    }
+                }
+            </div> <!-- .row -->
+        </div> <!-- .container -->
+    </section>
+</main>
+
+<div class="container mt-4">
+    <a href="@Url.Action("Create", "ArtWorks")" class="btn btn-primary">Add New Artwork</a>
+</div>
